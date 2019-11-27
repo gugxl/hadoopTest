@@ -26,3 +26,5 @@ buildNumber.properties
 
 # Log file
 *.log
+
+hadoopTest.iml
