@@ -64,7 +64,7 @@ public class OrderTopn {
         job.setMapOutputValueClass(OrderBean.class);
         job.setOutputKeyClass(OrderBean.class);
         job.setOutputValueClass(NullWritable.class);
-
+        job.setGroupingComparatorClass(OrderIdGroupingComparator.class);
         job.setMapperClass(OrderTopnMapper.class);
         job.setReducerClass(OrderTopnReducer.class);
 
