@@ -30,7 +30,7 @@ public class JobSubmitLocal {
         job.setMapOutputValueClass(IntWritable.class);
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);
-
+        job.setCombinerClass(WordCountCombiner.class);
         FileInputFormat.setInputPaths(job, new Path("D://wc//input"));
         FileOutputFormat.setOutputPath(job, new Path("D://wc//output4"));  // 注意：输出路径必须不存在
 
