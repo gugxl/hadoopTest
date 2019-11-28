@@ -25,7 +25,5 @@ public class HdfsUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 }
