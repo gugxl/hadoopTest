@@ -11,6 +11,9 @@
   <modules>
     <module>myhadoop</module>
     <module>myzookeeper</module>
+      <module>myspark</module>
+      <module>myhive</module>
+      <module>myscala</module>
   </modules>
 
   <name>myhadoop</name>
