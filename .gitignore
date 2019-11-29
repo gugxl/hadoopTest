@@ -1,6 +1,7 @@
 # IntelliJ
 out/
 .idea/
+*.iml
 
 ### Maven template
 target/
