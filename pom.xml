@@ -14,9 +14,10 @@
       <module>myspark</module>
       <module>myhive</module>
       <module>myscala</module>
+    <module>myhbase</module>
   </modules>
 
-  <name>myhadoop</name>
+  <name>hadoopTest</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 

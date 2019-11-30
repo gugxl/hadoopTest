@@ -13,7 +13,7 @@ object StreamingWordCount {
     // 第二个参数是小批次产生的时间间隔
     val ssc = new StreamingContext(sc, Milliseconds(5000))
     //从socket端口中读数据
-    val lines: ReceiverInputDStream[String] = ssc.socketTextStream("192.168.2.50",8889)
+    val lines: ReceiverInputDStream[String] = ssc.socketTextStream("master",8889)
     // 对DStream进行操作
     val words: DStream[String] = lines.flatMap(_.split(" "))
     // 组合
