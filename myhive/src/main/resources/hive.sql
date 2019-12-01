@@ -170,33 +170,92 @@ alter table t_pv_log drop partition(day='2019-12-04');
 alter table t_person change id id1 string;
 -- 增加
 alter table  t_person add columns(fs float, sss int);
+-- 删除字段将表中字段全部替换
+alter table  t_person replace columns(id string,name string,family_members map<string,string>,age int);
 -- left semi join hive中不支持exist/IN子查询，可以用left semi join来实现同样的效果：
+select
+a.name, a.num
+from t_a a
+left semi join t_b b
+on a.name = b.name;
 
+-- 常用内置函数
 
+-- 类型转换函数
+select cast("5" as int);
+select cast("2019-11-30" as date );
+select cast(current_timestamp as date );
+-- 聚合函数 max| min
+--字符串函数 substr(string, int start) | substring(string, int start)
+select substring('abc',2);
+-- 拼接字符串 concat(string A, string B...) | concat_ws(string SEP, string A, string B...)
+select concat("ab","cd","ef");
+select concat_ws(".","192","168","33","44"); -- 192.168.33.44
+-- split 注意正则字符需要转移
+select split("192.168.33.44","\\.");
+-- 时间函数
+select current_date ;
+select current_timestamp ;
+-- 取当前时间的毫秒数时间戳
+select unix_timestamp();
+-- unix时间戳转字符串 from_unixtime(bigint unixtime[, string format])
+select from_unixtime(unix_timestamp(),"yyyy-MM-dd HH:mm:ss");
+-- 字符串转unix时间戳unix_timestamp(string date, string pattern)
+select unix_timestamp("2019-11-29 21:34:09");
+select unix_timestamp("2019-11-29 21:34:09","yyyy-MM-dd HH:mm:ss");
+-- 将字符串转成日期date
+select to_date("2019-11-29 21:34:09");
+-- 表生成函数
+-- 行转列函数：explode()
+-- 1,zhangsan,化学:物理:数学:语文
+-- 2,lisi,化学:数学:生物:生理:卫生
+-- 3,wangwu,化学:语文:英语:体育:生物
+create table t_stu_subject(id int, name string,subjects array<string>)
+row format delimited fields terminated by ','
+collection items terminated by ':';
+-- 使用explode()对数组字段“炸裂”
+select explode(subjects) from t_stu_subject;
+-- 利用这个explode的结果，来求去重的课程
+select distinct tmp.sub from(
+select explode(subjects) sub from t_stu_subject
+) tmp;
 
+-- 表生成函数lateral view
+-- lateral view 相当于两个表在join
+-- 左表：是原表
+-- 右表：是explode(某个集合字段)之后产生的表
+-- 而且：这个join只在同一行的数据间进行
+select id,name,tmp.sub
+from t_stu_subject lateral view explode(subjects) tmp as sub;
+-- 集合函数 array_contains(Array<T>, value)  返回boolean值
+select array_contains(array('a','b','c'), 'b');
+-- 返回排序后的数组 sort_array(Array<T>)
+select sort_array(array('b','c','a'));
+-- map_keys(Map<K.V>)  返回一个数组
+-- map_values(Map<K.V>) 返回一个数组
+-- 条件控制函数
+-- case when
+-- 语法：
+-- CASE   [ expression ]
+--        WHEN condition1 THEN result1
+--        WHEN condition2 THEN result2
+--        ...
+--        WHEN conditionn THEN resultn
+--        ELSE result
+-- END
+select id, case age
+when age < 18 then "未成年"
+ELSE "已成年"
+end
+from t_person;
+-- IF
+select id , if(age < 18, "未成年", "已成年") from t_person;
+-- json解析函数：表生成函数
+create table t_rating_json(json string)
+row format delimited fields terminated by ',';
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+select json_tuple(json,'movie','rate','timeStamp','uid') as(movie,rate,ts,uid) from t_rating_json;
+select json_tuple('{"movie":"2011","rate":"4","timeStamp":"956716113","uid":"6040"}','movie','rate','timeStamp','uid') as(movie,rate,ts,uid)
 
 -- 时间戳函数
 select current_date;
@@ -216,7 +275,29 @@ from
 json_tuple(rateinfo,'movie','rate','timeStamp','uid') as(movie,rate,ts,uid)
 from t_json) tmp;
 
--- 分组topn
+-- 分析函数：row_number() over()——分组TOPN
+-- 1,18,a,male
+-- 2,19,b,male
+-- 3,22,c,female
+-- 4,16,d,female
+-- 5,30,e,male
+-- 6,26,f,female
+-- 需要查询出每种性别中年龄最大的2条数据
+create table t_rownumber(id int,age int,name string,sex string)
+row format delimited
+fields terminated by ',';
+-- 使用row_number函数，对表中的数据按照性别分组，按照年龄倒序排序并进行标记
+select id,age,name,sex,
+row_number() over(partition by sex order by age desc) as rank
+from t_rownumber;
+-- 查询出rank<=2的即为最终需求
+select id,age,name,sex
+from
+(select id,age,name,sex,
+row_number() over(partition by sex order by age desc) as rank
+from t_rownumber) tmp
+where rank<=2;
+
 select *,row_number() over(partition by uid order by rate desc) as rank from t_rate;
 
 select uid,movie,rate,ts
@@ -225,3 +306,6 @@ from
 where rank<=3;
 -- 网页URL数据解析函数：parse_url_tuple
 select parse_url_tuple("http://www.gugu.cn/baoming/youhui?cookieid=20937219375",'HOST','PATH','QUERY','QUERY:cookieid');
+
+
+

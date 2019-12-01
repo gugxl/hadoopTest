@@ -1,0 +1,1 @@
+create 't_user_info','base_info','extra_info';
