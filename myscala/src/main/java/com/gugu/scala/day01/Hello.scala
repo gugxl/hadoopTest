@@ -1,4 +1,4 @@
-package com.gugu.scala
+package com.gugu.scala.day01
 
 object Hello {
   val name ="张三"

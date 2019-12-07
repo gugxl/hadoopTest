@@ -1,4 +1,4 @@
-package com.gugu.scala
+package com.gugu.scala.day01
 
 object CallByValueAndName {
   // 钱包总金额

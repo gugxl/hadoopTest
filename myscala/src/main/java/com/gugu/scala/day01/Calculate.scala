@@ -1,4 +1,4 @@
-package com.gugu.scala
+package com.gugu.scala.day01
 
 object Calculate {
   // add方法拥有2个Int类型的参数， 返回值为2个Int的和

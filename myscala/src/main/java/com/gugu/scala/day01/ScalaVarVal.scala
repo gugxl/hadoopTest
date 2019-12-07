@@ -1,4 +1,5 @@
-package com.gugu.scala
+package com.gugu.scala.day01
+
 class Student(val name: String, var age : Int) // 构造方法
 object ScalaVarVal {
   def main(args: Array[String]): Unit = {
