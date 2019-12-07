@@ -24,3 +24,6 @@ object Hello {
   case class Student(name: String, age: Int)
 
 }
+class Hello{
+
+}
