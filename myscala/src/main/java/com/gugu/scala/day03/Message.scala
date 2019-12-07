@@ -5,6 +5,12 @@ import scala.util.Random
 case class Message(msgContent: String){
 
 }
+/**
+ * 默认实现了Serializable接口
+ * 样例对象：case object 对象名
+ * 模式匹配
+ * 样例对象不能封装数据
+ */
 case object CheckHeatBeat
 object TestCaseClass extends App{
 //  val msg = Message("helo")
