@@ -8,6 +8,6 @@ class Student {
   // val age: Int = _
   val age : Int = 25
 }
-object Test{
+object Test1{
   val name:String ="zhangsan"
 }
