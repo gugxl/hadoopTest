@@ -16,6 +16,7 @@
       <module>myscala</module>
     <module>myhbase</module>
       <module>myluence</module>
+      <module>myactor</module>
   </modules>
 
   <name>hadoopTest</name>
