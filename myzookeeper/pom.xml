@@ -18,11 +18,11 @@
             <version>3.4.5</version>
             <type>pom</type>
         </dependency>
-<!--        <dependency>
+        <dependency>
             <groupId>com.github.sgroschupf</groupId>
             <artifactId>zkclient</artifactId>
             <version>0.1</version>
-        </dependency>-->
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
