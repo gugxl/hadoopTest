@@ -1,13 +1,13 @@
-package com.gugu.day03
+package com.gugu.spark.day03
 
 import java.net.URL
 
-import org.apache.spark.{Partitioner, SparkConf, SparkContext}
 import org.apache.spark.rdd.RDD
+import org.apache.spark.{Partitioner, SparkConf, SparkContext}
 
 import scala.collection.mutable
 
-object GroupFavTeacher4 {
+object GroupFavTeacher3 {
   def main(args: Array[String]): Unit = {
     val topN: Int = args(1).toInt
     val conf: SparkConf = new SparkConf().setAppName("").setMaster("local[*]")
@@ -20,21 +20,23 @@ object GroupFavTeacher4 {
       val subject: String = new URL(hostHot).getHost.split("[.]")(0)
       ((subject, teacher), 1)
     })
+    val reduced: RDD[((String, String), Int)] = subjectTeacherAndOne.reduceByKey(_+_)
     //计算有多少学科
-    val subjects: Array[String] = subjectTeacherAndOne.map(_._1._1).distinct().collect()
+    val subjects: Array[String] = reduced.map(_._1._1).distinct().collect()
     //自定义一个分区器，并且按照指定的分区器进行分区
     val subjectParitioner = new SubjectParitioner(subjects)
+    //partitionBy按照指定的分区规则进行分区
+    //调用partitionBy时RDD的Key是(String, String)
+    val partitioned: RDD[((String, String), Int)] = reduced.partitionBy(subjectParitioner)
 
-    //聚合，聚合是就按照指定的分区器进行分区
-    //该RDD一个分区内仅有一个学科的数据
-    val reduced: RDD[((String, String), Int)] = subjectTeacherAndOne.reduceByKey(subjectParitioner,_+_)
     //如果一次拿出一个分区(可以操作一个分区中的数据了)
-    val result: RDD[((String, String), Int)] = reduced.mapPartitions(it => {
+    val sorted: RDD[((String, String), Int)] = partitioned.mapPartitions(it => {
       it.toList.sortBy(_._2).reverse.take(topN).iterator
     })
-    result.saveAsTextFile(args(2))
+    //将迭代器转换成list，然后排序，在转换成迭代器返回
+    val result: Array[((String, String), Int)] = sorted.collect()
+    println(result.toBuffer)
     sc.stop()
-    
   }
   //自定义分区器
   class SubjectParitioner(sbs : Array[String]) extends Partitioner{

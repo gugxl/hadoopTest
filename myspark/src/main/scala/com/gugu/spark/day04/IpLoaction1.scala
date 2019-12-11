@@ -1,4 +1,4 @@
-package com.gugu.day04
+package com.gugu.spark.day04
 
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.rdd.RDD

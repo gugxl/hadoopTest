@@ -1,4 +1,4 @@
-package com.gugu.day03
+package com.gugu.spark.day03
 
 import java.net.URL
 
