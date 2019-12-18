@@ -1,5 +1,7 @@
 package com.gugu.myfun;
 
+import org.apache.hadoop.hive.ql.exec.UDF;
+
 /**
  * @author gugu
  * @Classname UserInfoParser

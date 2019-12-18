@@ -11,9 +11,6 @@
     <!-- 定义一下常量 -->
     <properties>
         <encoding>UTF-8</encoding>
-        <scala.version>2.11.8</scala.version>
-        <scala.compat.version>2.11</scala.compat.version>
-        <akka.version>2.4.17</akka.version>
     </properties>
     <artifactId>myactor</artifactId>
 
@@ -44,7 +41,7 @@
     <build>
         <!-- 指定源码包和测试包的位置 -->
         <sourceDirectory>src/main/scala</sourceDirectory>
-        <testSourceDirectory>src/test/scala</testSourceDirectory>
+        <testSourceDirectory>src/main/scala</testSourceDirectory>
         <plugins>
             <!-- 指定编译scala的插件 -->
             <plugin>

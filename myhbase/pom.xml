@@ -8,10 +8,6 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <properties>
-        <hbase.version>2.2.2</hbase.version>
-    </properties>
-
     <artifactId>myhbase</artifactId>
     <dependencies>
         <dependency>
@@ -30,5 +26,4 @@
             <version>${hbase.version}</version>
         </dependency>
     </dependencies>
-
 </project>
