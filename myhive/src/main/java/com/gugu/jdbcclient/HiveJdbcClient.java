@@ -2,6 +2,7 @@ package com.gugu.jdbcclient;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.Statement;
 
 /**
@@ -22,7 +23,7 @@ public class HiveJdbcClient {
         Connection conn = DriverManager.getConnection("jdbc:hive2://master:10000/mydb2","gugu","");
         Statement stat = conn.createStatement();
         String sql = "select * from t_a limit 5";
-        Result rs = stat.executeQuery(sql);
+        ResultSet rs = stat.executeQuery(sql);
         while(rs.next()){
             System.out.println(rs.getString(0) + "-"+ rs.getString(1));
         }

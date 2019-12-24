@@ -44,12 +44,14 @@
 
     <akka.version>2.4.18</akka.version>
 
-    <hbase.version>1.1.2</hbase.version>
+    <hbase.version>2.2.2</hbase.version>
 
     <hive-jdbc.version>1.2.1</hive-jdbc.version>
     <hive-exec.version>1.2.1.spark2</hive-exec.version>
 
     <lucene.version>6.6.0</lucene.version>
+
+    <kafka.version>0.10.0.1</kafka.version>
 
     <spark.version>2.3.0</spark.version>
 
