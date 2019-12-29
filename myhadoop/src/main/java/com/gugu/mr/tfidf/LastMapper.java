@@ -41,7 +41,7 @@ public class LastMapper extends Mapper<LongWritable, Text,Text, Text> {
                         // FileSystem fs
                         // =FileSystem.get(context.getConfiguration());
                         // fs.open(path);
-                        BufferedReader bufferedReader = new BufferedReader(new FileReader(path.getName()));
+                        BufferedReader bufferedReader = new BufferedReader(new FileReader(uri.getPath()));
                         String line = bufferedReader.readLine();
                         if (line.startsWith("count")){
                             String[] ls = line.split("\t");
@@ -51,8 +51,8 @@ public class LastMapper extends Mapper<LongWritable, Text,Text, Text> {
                         bufferedReader.close();
                     } else if (uri.getPath().endsWith("part-r-00000")){// 词条的DF
                         df = new HashMap<String, Integer>();
-                        Path path = new Path(uri.getPath());
-                        BufferedReader br = new BufferedReader(new FileReader(path.getName()));
+//                        Path path = new Path(uri.getPath());
+                        BufferedReader br = new BufferedReader(new FileReader(uri.getPath()));
                         String line;
                         while ((line = br.readLine()) != null){
                             String[] ls = line.split("\t");

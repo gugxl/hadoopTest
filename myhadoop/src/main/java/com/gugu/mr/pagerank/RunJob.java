@@ -48,14 +48,14 @@ public class RunJob {
             job.setReducerClass(PageRankReducer.class);
 
             //使用了新的输入格式化类
-            Path inputPath = new Path("/data/pagerank/input/");
+            Path inputPath = new Path("file:///D:\\logs\\sxt\\pagerank\\input");
             if (i>1){
-                inputPath = new Path("/data/pagerank/output/pr"+(i-1));
+                inputPath = new Path("file:///D:\\logs\\sxt\\pagerank/output/pr"+(i-1));
             }
             FileInputFormat.addInputPath(job, inputPath);
-            Path outputPath = new Path("/data/pagerank/output/pr" + i);
-            if (fs.exists(outputPath)){
-                fs.delete(outputPath, true);
+            Path outputPath = new Path("file:///D:\\logs\\sxt\\pagerank/output/pr" + i);
+            if (outputPath.getFileSystem(conf).exists(outputPath)){
+                outputPath.getFileSystem(conf).delete(outputPath, true);
             }
             FileOutputFormat.setOutputPath(job, outputPath);
             boolean b = job.waitForCompletion(true);
@@ -130,16 +130,17 @@ public class RunJob {
             // 4为页面总数
             double newPR = (0.15 / 4.0) + (0.85 * sum);
             System.out.println("*********** new pageRank value is " + newPR);
+            if(null != sourceNode){
+                // 把新的pr值和计算之前的pr比较
+                double d = newPR - sourceNode.getPageRank();
+                int j = (int) d*1000;
+                j = Math.abs(j);
+                System.out.println(j + "___________");
+                context.getCounter(Mycounter.my).increment(j);
 
-            // 把新的pr值和计算之前的pr比较
-            double d = newPR - sourceNode.getPageRank();
-            int j = (int) d*1000;
-            j = Math.abs(j);
-            System.out.println(j + "___________");
-            context.getCounter(Mycounter.my).increment(j);
-
-            sourceNode.setPageRank(newPR);
-            context.write(key, new Text(sourceNode.toString()));
+                sourceNode.setPageRank(newPR);
+                context.write(key, new Text(sourceNode.toString()));
+            }
         }
     }
 }

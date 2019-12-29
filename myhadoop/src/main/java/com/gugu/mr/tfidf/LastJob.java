@@ -19,21 +19,22 @@ import java.io.IOException;
 public class LastJob {
     public static void main(String[] args) {
         Configuration conf =new Configuration();
-        conf.set("mapreduce.job.jar", "C:\\Users\\gugu\\Desktop\\tfidf.jar");
+//        conf.set("mapreduce.job.jar", "C:\\Users\\gugu\\Desktop\\tfidf.jar");
         conf.set("mapreduce.app-submission.cross-platform", "true");
+        conf.set("mapreduce.framework.name", "local");
 
         try {
             FileSystem fs = FileSystem.get(conf);
             Job job = Job.getInstance(conf);
             job.setJarByClass(LastJob.class);
             job.setJobName("weibo3");
-            job.setJar("C:\\Users\\gugu\\Desktop\\tfidf.jar");
+//            job.setJar("C:\\Users\\gugu\\Desktop\\tfidf.jar");
 
             //2.5
             //把微博总数加载到
-            job.addCacheFile(new Path("/data/tfidf/output/weibo1/part-r-00003").toUri());
+            job.addCacheFile(new Path("file:///D:\\logs\\sxt\\tfidf\\output\\weibo1\\part-r-00003").toUri());
             //把df加载到
-            job.addCacheFile(new Path("/data/tfidf/output/weibo2/part-r-00000").toUri());
+            job.addCacheFile(new Path("file:///D:\\logs\\sxt\\tfidf\\output\\weibo2\\part-r-00000").toUri());
 
             //设置map任务的输出key类型、value类型
             job.setOutputKeyClass(Text.class);
@@ -42,10 +43,10 @@ public class LastJob {
             job.setReducerClass(LastReduce.class);
 
             //mr运行时的输入数据从hdfs的哪个目录中获取
-            FileInputFormat.addInputPath(job, new Path("/data/tfidf/output/weibo1"));
-            Path outpath =new Path("/data/tfidf/output/weibo3");
-            if(fs.exists(outpath)){
-                fs.delete(outpath, true);
+            FileInputFormat.addInputPath(job, new Path("file:///D:\\logs\\sxt\\tfidf\\output\\weibo1"));
+            Path outpath =new Path("file:///D:\\logs\\sxt\\tfidf\\output\\weibo3");
+            if(outpath.getFileSystem(conf).exists(outpath)){
+                outpath.getFileSystem(conf).delete(outpath, true);
             }
             FileOutputFormat.setOutputPath(job,outpath );
 

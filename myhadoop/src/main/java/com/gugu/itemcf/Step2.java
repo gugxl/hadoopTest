@@ -1,5 +1,6 @@
 package com.gugu.itemcf;
 
+import com.gugu.util.FileUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -29,10 +30,10 @@ import java.util.Map;
  * @Date 2019/12/26 9:50
  */
 public class Step2 {
-    public static boolean run(Configuration configuration, Map<String ,String> paths){
+    public static boolean run(Configuration conf, Map<String ,String> paths){
         try {
-            FileSystem fs = FileSystem.get(configuration);
-            Job job = Job.getInstance(configuration);
+            FileSystem fs = FileSystem.get(conf);
+            Job job = Job.getInstance(conf);
             job.setJobName("Step2");
             job.setJarByClass(StartRun.class);
             job.setMapperClass(Step2_Mapper.class);
@@ -42,9 +43,7 @@ public class Step2 {
 
             FileInputFormat.addInputPath(job, new Path(paths.get("Step2Input")));
             Path outpath = new Path(paths.get("Step2Output"));
-            if(fs.exists(outpath)){
-                fs.delete(outpath,true);
-            }
+            FileUtils.clearFile(conf, outpath);
             FileOutputFormat.setOutputPath(job, outpath);
             boolean f = job.waitForCompletion(true);
             return f;

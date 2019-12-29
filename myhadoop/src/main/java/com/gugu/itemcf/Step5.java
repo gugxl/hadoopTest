@@ -1,5 +1,6 @@
 package com.gugu.itemcf;
 
+import com.gugu.util.FileUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -26,10 +27,10 @@ import java.util.regex.Pattern;
 public class Step5 {
     private final static Text K = new Text();
     private final static Text V = new Text();
-    public static boolean run(Configuration configuration, Map<String,String> paths){
+    public static boolean run(Configuration conf, Map<String,String> paths){
         try {
-            FileSystem fileSystem = FileSystem.get(configuration);
-            Job job = Job.getInstance(configuration);
+            FileSystem fileSystem = FileSystem.get(conf);
+            Job job = Job.getInstance(conf);
             job.setJobName("Step5");
             job.setJarByClass(StartRun.class);
             job.setMapperClass(Step5_Mapper.class);
@@ -38,11 +39,10 @@ public class Step5 {
             job.setMapOutputValueClass(Text.class);
 
             FileInputFormat.addInputPath(job, new Path(paths.get("Step5Input")));
-            Path step5Output = new Path(paths.get("Step5Output"));
-            if (fileSystem.exists(step5Output)){
-                fileSystem.delete(step5Output, true);
-            }
-            FileOutputFormat.setOutputPath(job,step5Output);
+            Path outpath = new Path(paths.get("Step5Output"));
+            FileUtils.clearFile(conf, outpath);
+
+            FileOutputFormat.setOutputPath(job,outpath);
             boolean b = job.waitForCompletion(true);
             return b ;
 

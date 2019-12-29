@@ -1,9 +1,15 @@
 package com.gugu.itemcf;
 
+import com.gugu.util.FileUtils;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.*;
+import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 import java.io.DataInput;
 import java.io.DataOutput;
@@ -20,7 +26,28 @@ import java.util.regex.Pattern;
 public class Step6 {
     private static final Text K = new Text();
     private static final Text V = new Text();
-    public static boolean run(Configuration configuration, Map<String,String> paths){
+    public static boolean run(Configuration conf, Map<String,String> paths){
+        try {
+            FileSystem fileSystem = FileSystem.get(conf);
+            Job job = Job.getInstance(conf);
+            job.setJobName("step6");
+            job.setJarByClass(StartRun.class);
+            job.setMapperClass(Step6_Mapper.class);
+            job.setReducerClass(Step6_Reducer.class);
+            job.setSortComparatorClass(NumSort.class);
+            job.setGroupingComparatorClass(UserGroup.class);
+            job.setMapOutputKeyClass(PairWritable.class);
+            job.setMapOutputValueClass(Text.class);
+            FileInputFormat
+                    .addInputPath(job, new Path(paths.get("Step6Input")));
+            Path outpath = new Path(paths.get("Step6Output"));
+            FileUtils.clearFile(conf, outpath);
+            FileOutputFormat.setOutputPath(job, outpath);
+            return job.waitForCompletion(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return false;
     }
     static class Step6_Mapper extends Mapper<LongWritable, Text,PairWritable,Text>{

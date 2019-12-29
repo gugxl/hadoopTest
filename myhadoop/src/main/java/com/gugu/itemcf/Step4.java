@@ -1,5 +1,6 @@
 package com.gugu.itemcf;
 
+import com.gugu.util.FileUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -43,11 +44,9 @@ public class Step4 {
                     new Path(paths.get("Step4Input1")),
                     new Path(paths.get("Step4Input2"))
             });
-            Path step4Output = new Path(paths.get("Step4Output"));
-            if (fileSystem.exists(step4Output)){
-                fileSystem.delete(step4Output, true);
-            }
-            FileOutputFormat.setOutputPath(job,step4Output);
+            Path outpath = new Path(paths.get("Step4Output"));
+            FileUtils.clearFile(conf, outpath);
+            FileOutputFormat.setOutputPath(job,outpath);
             boolean b = job.waitForCompletion(true);
             return b;
         } catch (Exception e) {

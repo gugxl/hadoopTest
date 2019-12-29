@@ -1,5 +1,6 @@
 package com.gugu.itemcf;
 
+import com.gugu.util.FileUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -37,9 +38,7 @@ public class Step1 {
 
             FileInputFormat.addInputPath(job, new Path(paths.get("Step1Input")));
             Path outpath = new Path(paths.get("Step1Output"));
-            if(fs.exists(outpath)){
-                fs.delete(outpath,true);
-            }
+            FileUtils.clearFile(conf, outpath);
             FileOutputFormat.setOutputPath(job, outpath);
 
             boolean f = job.waitForCompletion(true);
@@ -53,6 +52,9 @@ public class Step1 {
         }
         return false;
     }
+
+
+
     static class Step1_Mapper extends Mapper<LongWritable, Text,Text, NullWritable> {
         @Override
         protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {

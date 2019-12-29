@@ -37,11 +37,11 @@ public class FirstJob {
             job.setReducerClass(FirstReduce.class);
             job.setCombinerClass(FirstReduce.class);
 
-            FileInputFormat.addInputPath(job, new Path("/data/tfidf/input/"));
-            Path output = new Path("/data/tfidf/output/weibo1");
+            FileInputFormat.addInputPath(job, new Path("file:///D:\\logs\\sxt\\tfidf\\input"));
+            Path output = new Path("file:///D:\\logs\\sxt\\tfidf\\output\\weibo1");
 
-            if (fs.exists(output)){
-                fs.delete(output,true);
+            if (output.getFileSystem(conf).exists(output)){
+                output.getFileSystem(conf).delete(output,true);
             }
 
             FileOutputFormat.setOutputPath(job, output);
