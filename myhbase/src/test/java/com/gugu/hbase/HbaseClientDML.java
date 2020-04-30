@@ -59,12 +59,12 @@ public class HbaseClientDML {
     @Test
     public void testManyPuts() throws Exception{
         Table table = conn.getTable(tableName);
-        List<Put> puts = new ArrayList<>(100000);
-        for(int i=0;i<100000;i++){
+        List<Put> puts = new ArrayList<>(1000);
+        for(int i=0;i<1000;i++){
             Put put = new Put(Bytes.toBytes(""+i));
             put.addColumn(Bytes.toBytes("base_info"), Bytes.toBytes("username"), Bytes.toBytes("张三"+i));
             put.addColumn(Bytes.toBytes("base_info"), Bytes.toBytes("age"), Bytes.toBytes((18+i)+""));
-            put.addColumn(Bytes.toBytes("extra_info"), Bytes.toBytes("addr"), Bytes.toBytes("北京"));
+            put.addColumn(Bytes.toBytes("ext_info"), Bytes.toBytes("addr"), Bytes.toBytes("北京"));
             puts.add(put);
         }
         table.put(puts);
@@ -91,8 +91,6 @@ public class HbaseClientDML {
         Table table = conn.getTable(tableName);
         Get get = new Get(Bytes.toBytes("100"));
         Result result = table.get(get);
-
-
     }
 
 

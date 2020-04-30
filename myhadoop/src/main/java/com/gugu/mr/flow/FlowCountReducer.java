@@ -26,4 +26,5 @@ public class FlowCountReducer extends Reducer<Text, FlowBean, Text, FlowBean> {
 
         context.write(key, new FlowBean(key.toString(), upFlowSum,downFlowSum));
     }
+
 }

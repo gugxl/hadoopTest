@@ -5,11 +5,9 @@ import kafka.consumer.ConsumerConfig;
 import kafka.consumer.KafkaStream;
 import kafka.javaapi.consumer.ConsumerConnector;
 import kafka.message.MessageAndMetadata;
+import org.apache.kafka.common.TopicPartition;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * @author gugu
@@ -18,6 +16,7 @@ import java.util.Properties;
  * @Date 2019/12/19 17:04
  */
 public class ConsumerDemo {
+
     private static final String topic = "my-topic";
     private static final Integer threads = 2;
 
@@ -30,6 +29,7 @@ public class ConsumerDemo {
         properties.put("auto.offset.reset","smallest");
         ConsumerConfig config = new ConsumerConfig(properties);
         ConsumerConnector consumer = Consumer.createJavaConsumerConnector(config);
+
         Map<String,Integer> topicCountMap = new HashMap<>();
         topicCountMap.put(topic,threads);
         Map<String, List<KafkaStream<byte[], byte[]>>> messageStreams = consumer.createMessageStreams(topicCountMap);

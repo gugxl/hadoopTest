@@ -30,7 +30,7 @@ public class JobSubmit {
         conf.set("fs.defaultFS","hdfs://master:9000");
         // 2、设置job提交到哪去运行[默认local、yarn指定集群]
         conf.set("mapreduce.framework.name", "yarn");
-        conf.set("yarn.resourcemanager.hostname", "master");
+//        conf.set("yarn.resourcemanager.hostname", "master");
         // 3、如果要从windows系统上运行这个job提交客户端程序，则需要加这个跨平台提交的参数
         conf.set("mapreduce.app-submission.cross-platform","true");
 
@@ -46,8 +46,9 @@ public class JobSubmit {
 
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);
-        job.setJar("D:\\ApplicationFiles\\IDEA\\hadoopTest\\out\\artifacts\\hadoopTest_jar\\hadoopTest.jar");
-        Path output = new Path("/wc/output4");
+        job.setJar("D:\\ApplicationFiles\\IDEA\\hadoopTest\\myhadoop\\target\\hadoopTest.jar");
+//        job.setJarByClass(JobSubmit.class);
+        Path output = new Path("/wc/output");
         FileSystem fs = FileSystem.get(new URI("hdfs://master:9000"),conf,"gugu");
         if(fs.exists(output)){
             fs.delete(output, true);

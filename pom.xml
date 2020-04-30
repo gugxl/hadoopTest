@@ -47,7 +47,8 @@
     <hbase.version>2.2.2</hbase.version>
 
     <hive-jdbc.version>1.2.1</hive-jdbc.version>
-    <hive-exec.version>1.2.1.spark2</hive-exec.version>
+    <hive.version>1.2.1</hive.version>
+    <hive-exec.version>1.2.1</hive-exec.version>
 
     <lucene.version>6.6.0</lucene.version>
 

@@ -16,6 +16,8 @@ import java.net.URISyntaxException;
  * @Date 2019/11/25 23:05
  */
 public class HdfsClientDemo {
+    static final String user = "gugu";
+
     public static void main(String[] args) throws Exception {
         FileSystem fileSystem = getFileSystem();
 //        putFile(fileSystem);
@@ -35,8 +37,8 @@ public class HdfsClientDemo {
         // 指定副本数
         conf.set("dfs.replication", "1");
         // 指定块大小，https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-hdfs/hdfs-default.xml
-        conf.set("dfs.blocksize", "64m");
-        String user = "gugu";
+        conf.set("dfs.blocksize", "128m");
+
         // 参数（HDFS系统的URI,需要指定的参数，客户端操作的用户）
         return FileSystem.get(new URI("hdfs://master:9000/"), conf, user);
     }
