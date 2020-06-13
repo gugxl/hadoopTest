@@ -5,6 +5,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IOUtils;
+import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.junit.jupiter.api.Test;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
@@ -15,6 +16,7 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.GenericOptionsParser;
 
+import javax.security.auth.callback.TextInputCallback;
 import java.io.*;
 import java.net.URI;
 
@@ -247,6 +249,8 @@ public class Main {
         job.setReducerClass(WordReducer.class); // 设置Reducer类
         job.setOutputKeyClass(Text.class); // 设置输出数据的关键类
         job.setOutputValueClass(IntWritable.class); // 设置输出值类
+
+//        job.setInputFormatClass(WhoalTextInputFormat.class); // 重写isSplit（）方法防止map切分文件
         FileInputFormat.addInputPath(job, new Path("/wc/input/"));
         FileOutputFormat.setOutputPath(job, new Path("/wc/output5/"));
         System.exit(job.waitForCompletion(true) ? 0 : 1);
