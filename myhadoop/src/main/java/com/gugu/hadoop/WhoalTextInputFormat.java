@@ -9,7 +9,7 @@ import java.io.IOException;
 
 /**
  * @author gugu
- * @Classname WhoalTextInputFormat
+ * @Classname WhoalTextIn   的离开法拉会计师的弗兰克；克雷登斯解放啦健康的说服力爱上了的扣发奖金  putFormat
  * @Description TODO 不进行文件切分
  * @Date 2020/6/5 9:23
  */

@@ -72,8 +72,8 @@
       <module>myspark</module>
       <module>myhive</module>
       <module>myscala</module>
-    <module>myhbase</module>
-      <module>myluence</module>
+      <module>myhbase</module>
+      <module>mylucene</module>
       <module>myactor</module>
       <module>mykafka</module>
   </modules>

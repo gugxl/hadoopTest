@@ -48,7 +48,7 @@ public class JobSubmit {
         job.setOutputValueClass(IntWritable.class);
         job.setJar("D:\\ApplicationFiles\\IDEA\\hadoopTest\\myhadoop\\target\\hadoopTest.jar");
 //        job.setJarByClass(JobSubmit.class);
-        Path output = new Path("/wc/output");
+        Path output = new Path("/wc/output2");
         FileSystem fs = FileSystem.get(new URI("hdfs://master:9000"),conf,"gugu");
         if(fs.exists(output)){
             fs.delete(output, true);
