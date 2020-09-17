@@ -20,7 +20,7 @@ public class DataSource {
         JavaRDD<String> line = javaSparkContext.textFile("hdfs://master:9000");
         JavaRDD<String> line2 = javaSparkContext.textFile("file:///D://wc//sparkInput");
 
-        KafkaUtils kafkaUtils = new KafkaUtils();
+//        KafkaUtils kafkaUtils = new KafkaUtils();
 
     }
 }

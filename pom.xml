@@ -50,7 +50,7 @@
     <hive.version>1.2.1</hive.version>
     <hive-exec.version>1.2.1</hive-exec.version>
 
-    <lucene.version>6.6.0</lucene.version>
+    <lucene.version>8.6.1</lucene.version>
 
     <kafka.version>0.10.0.1</kafka.version>
 
@@ -76,6 +76,7 @@
       <module>mylucene</module>
       <module>myactor</module>
       <module>mykafka</module>
+      <module>myelasticsearch</module>
   </modules>
 
   <name>hadoopTest</name>

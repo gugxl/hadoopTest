@@ -17,6 +17,7 @@ import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.FSDirectory;
 import org.junit.Test;
+import org.wltea.analyzer.lucene.IKAnalyzer;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -38,16 +39,23 @@ public class HelloWorldTest {
     @Test
     public void testCreate() throws Exception{
         Article article = new Article();
-        article.setId(1L);
+//        article.setId(1L);
+//        article.setAuthor("gugu");
+//        article.setTitle("Redis缓存穿透问题及解决方案");
+//        article.setContent("Redis缓存穿透问题及解决方案\n" +
+//                "场景：查询信息的时候，缓存并未找到对应信息，则查数据库为空，且不会加入缓存，这就会导致，下次在查询同样信息，由于缓存未命中，则仍旧会查底层数据库，所以缓存就一直未起到应有的作用，当并发流量大时，会很容易把DB打垮。！");
+//        article.setUrl("https://blog.csdn.net/zhazhagu/article/details/107905280");
+        article.setId(10L);
         article.setAuthor("gugu");
-        article.setTitle("Redis缓存穿透问题及解决方案");
-        article.setContent("Redis缓存穿透问题及解决方案\n" +
-                "场景：查询信息的时候，缓存并未找到对应信息，则查数据库为空，且不会加入缓存，这就会导致，下次在查询同样信息，由于缓存未命中，则仍旧会查底层数据库，所以缓存就一直未起到应有的作用，当并发流量大时，会很容易把DB打垮。！");
-        article.setUrl("https://blog.csdn.net/zhazhagu/article/details/107905280");
+        article.setTitle("Redis入门");
+        article.setContent("Redis入门1212122啊飒飒大师大入门");
+        article.setUrl("https://blog.csdn.net/zhazhagu/article/details/121212121454");
 
         FSDirectory fsDirectory = FSDirectory.open(Paths.get(indexPath));
         // 创建标准分词器
-        Analyzer analyzer = new StandardAnalyzer();
+//        Analyzer analyzer = new StandardAnalyzer();
+        Analyzer analyzer = new IKAnalyzer(true);
+
         // 写入索引配置，指定分词器
         IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
         IndexWriter indexWriter = new IndexWriter(fsDirectory, indexWriterConfig);
@@ -60,19 +68,25 @@ public class HelloWorldTest {
     @Test
     public void testSearch() throws Exception{
         // 注意需要与创建索引使用同一个分词器
-        Analyzer analyzer = new StandardAnalyzer();
+//        Analyzer analyzer = new StandardAnalyzer();
+        Analyzer analyzer = new IKAnalyzer(true);
         DirectoryReader directoryReader = DirectoryReader.open(FSDirectory.open(Paths.get(indexPath)));
         // 索引查询器
         IndexSearcher indexSearcher = new IndexSearcher(directoryReader);
 
-        String str = "缓存";
+        String str = "Redis";
         // 创建一个查询条件解析器
         QueryParser parser = new QueryParser("title", analyzer);
+
+//        String str = "gu";
+//        // 创建一个查询条件解析器
+//        QueryParser parser = new QueryParser("author", analyzer);
+
         //对查询条件进行解析
         Query query = parser.parse(str);
 
-        //TermQuery将查询条件当成是一个固定的词
-        //Query query = new TermQuery(new Term("url", "https://blog.csdn.net/zhazhagu/article/details/107905280"));
+//        //TermQuery将查询条件当成是一个固定的词
+//        Query query = new TermQuery(new Term("url", "https://blog.csdn.net/zhazhagu/article/details/107905280"));
 
         //在【索引】中进行查找
         TopDocs topDocs = indexSearcher.search(query, 10);

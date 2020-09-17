@@ -14,7 +14,7 @@ class StrMessage[String](msg: String) extends Message1(msg)
 class IntMessage[Int](msg: Int) extends Message1(msg)
 // 定义一个泛型类
 class Clothes[A,B,C](val clothesType: A, var color : B, var size:C)
-object Test3{
+object Test5{
   def main(args: Array[String]): Unit = {
     val s = new StrMessage("i hate you !")
     val i = new IntMessage(25)
