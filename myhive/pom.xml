@@ -16,38 +16,22 @@
 <!--            <url>http://maven.aliyun.com/nexus/content/groups/public</url>-->
 <!--        </repository>-->
 <!--    </repositories>-->
-
+    <repositories>
+        <repository>
+            <id>spring-libs</id>
+            <url>https://repo.spring.io/libs-milestone/</url>
+        </repository>
+    </repositories>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>myhive</artifactId>
     <name>myhive</name>
     <url>http://maven.apache.org</url>
 <dependencies>
-    
-    <!-- https://mvnrepository.com/artifact/org.pentaho/pentaho-aggdesigner-algorithm -->
-    <dependency>
-        <groupId>org.pentaho</groupId>
-        <artifactId>pentaho-aggdesigner-algorithm</artifactId>
-        <version>5.1.5-jhyde</version>
-        <scope>test</scope>
-    </dependency>
-
     <dependency>
         <groupId>org.apache.hive</groupId>
         <artifactId>hive-jdbc</artifactId>
         <version>${hive.version}</version>
     </dependency>
-
-<!--&lt;!&ndash;    <dependency>&ndash;&gt;-->
-<!--&lt;!&ndash;        <groupId>org.apache.hive</groupId>&ndash;&gt;-->
-<!--&lt;!&ndash;        <artifactId>hive-exec</artifactId>&ndash;&gt;-->
-<!--&lt;!&ndash;        <version>1.2.2</version>&ndash;&gt;-->
-<!--&lt;!&ndash;    </dependency>&ndash;&gt;-->
-<!--    <dependency>-->
-<!--        <groupId>org.apache.hadoop</groupId>-->
-<!--        <artifactId>hadoop-client</artifactId>-->
-<!--        <version>${hadoop.version}</version>-->
-<!--    </dependency>-->
-
     <dependency>
         <groupId>org.spark-project.hive</groupId>
         <artifactId>hive-exec</artifactId>
@@ -58,7 +42,7 @@
     <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
-        <version>4.12</version>
+        <version>${junit.version}</version>
         <scope>test</scope>
     </dependency>
     <dependency>
