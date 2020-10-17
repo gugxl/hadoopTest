@@ -1,6 +1,7 @@
 package com.gugu.es.demo;
 
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
+import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.client.AdminClient;
 import org.elasticsearch.client.IndicesAdminClient;
 import org.elasticsearch.client.transport.TransportClient;
@@ -8,6 +9,7 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,21 +26,22 @@ import java.util.HashMap;
  * @Date 2020/9/17 22:53
  */
 public class AdminAPI {
-    public static final  String HOST_NAME = "localhost";
+    public static final String HOST_NAME0 = "192.168.2.100";
+    public static final String HOST_NAME1 = "192.168.2.101";
+    public static final String HOST_NAME2 = "192.168.2.102";
+    public static final int port = 9300;
     private TransportClient client = null;
+
+    //在所有的测试方法之前执行
     @Before
-    public void init() throws UnknownHostException {
-        // 设置集群名字
-        Settings settings = Settings.builder()
-                .put("cluster.name", "gugu-es")
-                .build();
-        //创建client old 将在8.0废弃
-        client = new PreBuiltTransportClient(settings).addTransportAddresses(
-                //用java访问ES用的端口是9300
-                new TransportAddress(InetAddress.getByName(HOST_NAME), 9300),
-                new TransportAddress(InetAddress.getByName(HOST_NAME), 9301),
-                new TransportAddress(InetAddress.getByName(HOST_NAME), 9302)
-        );
+    public void init() throws Exception {
+        //设置集群名称
+        Settings settings = Settings.builder().put("cluster.name", "my-es").build();
+        //创建client
+        client = new PreBuiltTransportClient(settings)
+                .addTransportAddress(new TransportAddress(InetAddress.getByName(HOST_NAME0), port))
+                .addTransportAddress(new TransportAddress(InetAddress.getByName(HOST_NAME1), port))
+                .addTransportAddress(new TransportAddress(InetAddress.getByName(HOST_NAME2), port));
     }
 
     //创建索引，并配置一些参数
@@ -64,21 +67,9 @@ public class AdminAPI {
 
     //跟索引添加mapping信息（给表添加schema信息）
     @Test
-    public void putMapping() {
-        //创建索引
-        client.admin().indices().prepareCreate("twitter")
-        //创建一个type，并指定type中属性的名字和类型
-        . addMapping("tweet",
-        "{\n" +
-                "    \"tweet\": {\n" +
-                "      \"properties\": {\n" +
-                "        \"message\": {\n" +
-                "          \"type\": \"string\"\n" +
-                "        }\n" +
-                "      }\n" +
-                "    }\n" +
-                "  }")
-        .get();
+    public void putMapping() throws IOException {
+        client.admin().indices().prepareCreate("tweeter")
+                .addMapping("_doc","message", "type=text").get();
     }
     /**
      * 你可以通过dynamic设置来控制这一行为，它能够接受以下的选项：
@@ -105,26 +96,25 @@ public class AdminAPI {
                 //类型是integer
                 .field("type", "integer")
                 //不分词，但是建索引
-                .field("index", "not_analyzed")
+                .field("index", false)
                 //在文档中存储
-                .field("store", "yes")
+                .field("store", true)
                 .endObject()
                 //name属性
                 .startObject("name")
                 //string类型
-                .field("type", "string")
+                .field("type", "text")
                 //在文档中存储
-                .field("store", "yes")
+                .field("store", true)
                 //建立索引
-                .field("index", "analyzed")
+                .field("index", true)
                 //使用ik_smart进行分词
-                .field("analyzer", "ik_smart")
                 .endObject()
                 .endObject()
                 .endObject();
         CreateIndexRequestBuilder prepareCreate = client.admin().indices().prepareCreate("user_info");
         //管理索引（user_info）然后关联type（user）
-        prepareCreate.setSettings(settings_map).addMapping("user", builder).get();
+        prepareCreate.setSettings(settings_map).addMapping("_doc", builder).get();
     }
     /**
      * XContentBuilder mapping = jsonBuilder()
@@ -166,11 +156,11 @@ public class AdminAPI {
                 .startObject("properties")
                 .startObject("id")
                 .field("type", "integer")
-                .field("store", "yes")
+                .field("store", "true")
                 .endObject()
                 .startObject("name")
-                .field("type", "string")
-                .field("index", "not_analyzed")
+                .field("type", "text")
+                .field("index", "false")
                 .endObject()
                 .startObject("age")
                 .field("type", "integer")
@@ -179,30 +169,28 @@ public class AdminAPI {
                 .field("type", "integer")
                 .endObject()
                 .startObject("team")
-                .field("type", "string")
-                .field("index", "not_analyzed")
+                .field("type", "text")
+                .field("index", "false")
                 .endObject()
                 .startObject("position")
-                .field("type", "string")
-                .field("index", "not_analyzed")
+                .field("type", "text")
+                .field("index", "false")
                 .endObject()
                 .startObject("description")
-                .field("type", "string")
-                .field("store", "no")
-                .field("index", "analyzed")
-                .field("analyzer", "ik_smart")
+                .field("type", "text")
+                .field("store", "false")
+                .field("index", "true")
                 .endObject()
                 .startObject("addr")
-                .field("type", "string")
-                .field("store", "yes")
-                .field("index", "analyzed")
-                .field("analyzer", "ik_smart")
+                .field("type", "text")
+                .field("store", "true")
+                .field("index", "true")
                 .endObject()
                 .endObject()
                 .endObject();
 
-        CreateIndexRequestBuilder prepareCreate = client.admin().indices().prepareCreate("player_info");
-        prepareCreate.setSettings(settings_map).addMapping("player", builder).get();
+        CreateIndexRequestBuilder prepareCreate = client.admin().indices().prepareCreate("player_info1");
+        prepareCreate.setSettings(settings_map).addMapping("_doc", builder).get();
 
     }
 }
