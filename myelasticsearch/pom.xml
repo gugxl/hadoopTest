@@ -17,6 +17,11 @@
             <artifactId>transport</artifactId>
             <version>7.9.2</version>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.62</version>
+        </dependency>
         <!-- 依赖2.x的log4j -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -33,12 +38,6 @@
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch</artifactId>
             <version>7.9.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.elasticsearch</groupId>
-            <artifactId>elasticsearch-x-content</artifactId>
-            <version>7.9.2</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 
