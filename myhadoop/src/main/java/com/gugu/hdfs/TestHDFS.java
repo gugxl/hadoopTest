@@ -24,7 +24,7 @@ public class TestHDFS {
     @Before
     public void conn() throws IOException {
         conf = new Configuration(false);
-        conf.set("fs.defaultFS","hdfs://master:9000");
+        conf.set("fs.defaultFS","hdfs://master:8020");
         fs = FileSystem.get(conf);
     }
     @After

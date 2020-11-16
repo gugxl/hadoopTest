@@ -38,7 +38,7 @@ object JdbcDataSource {
 
 //    result.write.json("D:\\logs\\json2")
 //    result.write.csv("D:\\logs\\csv2")
-    result.write.parquet("hdfs://master:9000/test/parquet")
+    result.write.parquet("hdfs://master:8020/test/parquet")
     result.show()
     sparkSession.stop()
   }

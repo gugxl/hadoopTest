@@ -40,6 +40,6 @@ public class HdfsClientDemo {
         conf.set("dfs.blocksize", "128m");
 
         // 参数（HDFS系统的URI,需要指定的参数，客户端操作的用户）
-        return FileSystem.get(new URI("hdfs://master:9000/"), conf, user);
+        return FileSystem.get(new URI("hdfs://master:8020/"), conf, user);
     }
 }

@@ -30,7 +30,7 @@ public class HdfsWordCount {
         MyContext myContext = new MyContext();
 
         // 一次读取一行
-        FileSystem fileSystem = FileSystem.get(new URI("hdfs://master:9000/"), new Configuration(), "gugu");
+        FileSystem fileSystem = FileSystem.get(new URI("hdfs://master:8020/"), new Configuration(), "gugu");
         RemoteIterator<LocatedFileStatus> iterator = fileSystem.listFiles(new Path(inputPath), false);
         while (iterator.hasNext()){
             LocatedFileStatus locatedFileStatus = iterator.next();

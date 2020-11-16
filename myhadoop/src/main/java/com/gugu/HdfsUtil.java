@@ -18,7 +18,7 @@ public class HdfsUtil {
     // 由于mapReduce的输出结果路径不能存在，此方法用于在执行前删除此文件夹
     public static void rmOutDir(String path){
         try {
-            FileSystem fs = FileSystem.get(new URI("hdfs://master:9000/"), new Configuration(), "gugu");
+            FileSystem fs = FileSystem.get(new URI("hdfs://master:8020/"), new Configuration(), "gugu");
             if (fs.exists(new Path(path))){
                 fs.delete(new Path(path), true);
             }

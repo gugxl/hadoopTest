@@ -17,7 +17,7 @@ public class DataSource {
         //创建sparkContext
         JavaSparkContext javaSparkContext = new JavaSparkContext(conf);
         //读取HDFS数据
-        JavaRDD<String> line = javaSparkContext.textFile("hdfs://master:9000");
+        JavaRDD<String> line = javaSparkContext.textFile("hdfs://master:8020");
         JavaRDD<String> line2 = javaSparkContext.textFile("file:///D://wc//sparkInput");
 
 //        KafkaUtils kafkaUtils = new KafkaUtils();

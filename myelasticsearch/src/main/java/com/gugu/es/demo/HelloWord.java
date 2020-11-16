@@ -1,8 +1,6 @@
 package com.gugu.es.demo;
 
-import org.apache.http.HttpHost;
 import org.elasticsearch.action.get.GetResponse;
-import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.TransportAddress;

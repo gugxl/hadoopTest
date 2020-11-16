@@ -12,7 +12,7 @@ object GameKPI {
     val sparkSession: SparkSession = SparkSession.builder().appName("GameKPI").master("local[*]").getOrCreate()
     val filterUtils = new FilterUtils_V2
     //    //切分之后的数据
-    val splitedLogs: RDD[Array[String]] = sparkSession.sparkContext.textFile("hdfs://master:9000/test/game/").map(_.split("[|]"))
+    val splitedLogs: RDD[Array[String]] = sparkSession.sparkContext.textFile("hdfs://master:8020/test/game/").map(_.split("[|]"))
     //    //过滤后并缓冲
     val filteredLogs: RDD[Array[String]] = splitedLogs.filter(fields => {
       filterUtils.filterByTime(fields, beginTime, endTime)

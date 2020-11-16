@@ -27,7 +27,7 @@ import java.net.URI;
  * @Date 2019/10/29 21:55
  */
 public class Main {
-    private static String HDFSUri = "hdfs://master:9000";
+    private static String HDFSUri = "hdfs://master:8020";
 
     /**
      * 1、获取文件系统

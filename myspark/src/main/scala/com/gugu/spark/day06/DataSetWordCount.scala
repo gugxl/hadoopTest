@@ -10,7 +10,7 @@ object DataSetWordCount {
     //(指定以后从哪里)读数据，是lazy
     //Dataset分布式数据集，是对RDD的进一步封装，是更加智能的RDD
     //dataset只有一列，默认这列叫value
-    val lines: Dataset[String] = spark.read.textFile("hdfs://master:9000/wc/input/")
+    val lines: Dataset[String] = spark.read.textFile("hdfs://master:8020/wc/input/")
     //整理数据(切分压平)
     //导入隐式转换
     import spark.implicits._

@@ -8,7 +8,7 @@ object SQLDemo1 {
   def main(args: Array[String]): Unit = {
     val sparkSession: SparkSession = SparkSession.builder().appName("SQLDemo1").master("local[*]").getOrCreate()
 
-    val lines: RDD[String] = sparkSession.sparkContext.textFile("hdfs://master:9000/test/person/")
+    val lines: RDD[String] = sparkSession.sparkContext.textFile("hdfs://master:8020/test/person/")
     //将数据进行整理
     val boyRDD: RDD[Boy] = lines.map(
       line => {

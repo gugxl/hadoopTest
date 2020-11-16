@@ -27,7 +27,7 @@ public class JobSubmit {
         // 在代码中设置JVM系统参数，用于给job对象来获取访问HDFS的用户身份
         System.setProperty("HADOOP_USER_NAME", "gugu");
         // 1、设置job运行时要访问的默认文件系统
-        conf.set("fs.defaultFS","hdfs://master:9000");
+        conf.set("fs.defaultFS","hdfs://master:8020");
         // 2、设置job提交到哪去运行[默认local、yarn指定集群]
         conf.set("mapreduce.framework.name", "yarn");
 //        conf.set("yarn.resourcemanager.hostname", "master");
@@ -49,7 +49,7 @@ public class JobSubmit {
         job.setJar("D:\\ApplicationFiles\\IDEA\\hadoopTest\\myhadoop\\target\\hadoopTest.jar");
 //        job.setJarByClass(JobSubmit.class);
         Path output = new Path("/wc/output2");
-        FileSystem fs = FileSystem.get(new URI("hdfs://master:9000"),conf,"gugu");
+        FileSystem fs = FileSystem.get(new URI("hdfs://master:8020"),conf,"gugu");
         if(fs.exists(output)){
             fs.delete(output, true);
         }
