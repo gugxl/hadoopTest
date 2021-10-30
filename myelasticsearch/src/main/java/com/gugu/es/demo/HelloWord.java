@@ -40,7 +40,8 @@ public class HelloWord {
 
         GetResponse documentFields = client.prepareGet("kibana_sample_data_flights","_doc","SutcInUBQRrfBaQfiaye").execute().actionGet();
         System.out.println(documentFields);
-
+//        IndexResponse indexResponse = client.prepareIndex("test", "_doc").setCreate(true).execute().get();
+//        System.out.println(indexResponse.getResult());
         client.close();
     }
 }

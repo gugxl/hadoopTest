@@ -9,6 +9,15 @@ object ScalaWordCount {
     val conf: SparkConf = new SparkConf().setAppName("ScalaWordCount").setMaster("local[*]")
     //创建spark执行的入口
     val sc = new SparkContext(conf)
+    val rdd1: RDD[Int] = sc.parallelize(List(1, 2, 3, 4, 5, 6, 7, 8, 9))
+
+    var func = (index : Int, it :Iterator[Int]) => {
+      it.map(e => s"part: $index, ele： $e \n")
+    }
+
+    val rdd2 = rdd1.mapPartitionsWithIndex(func)
+    rdd2.collect()
+
     //指定以后从哪里读取数据创建RDD（弹性分布式数据集）
 //    sc.textFile(args(0)).flatMap(_.split(" ")).map((_,1)).reduceByKey(_+_).sortBy(_._2, false).saveAsTextFile(args(1))
     val line: RDD[String] = sc.textFile(args(0))
