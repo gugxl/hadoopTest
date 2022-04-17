@@ -17,6 +17,7 @@ import org.apache.hadoop.hbase.filter.BinaryComparator;
 import org.apache.hadoop.hbase.filter.ColumnPrefixFilter;
 import org.apache.hadoop.hbase.filter.FamilyFilter;
 import org.apache.hadoop.hbase.filter.Filter;
+import org.apache.hadoop.hbase.filter.FilterList;
 import org.apache.hadoop.hbase.filter.PageFilter;
 import org.apache.hadoop.hbase.filter.PrefixFilter;
 import org.apache.hadoop.hbase.filter.QualifierFilter;
@@ -49,15 +50,31 @@ public class HbaseFilterTest {
 //        testSingleColumnValueExcludeFilter ();
 //        testPrefixFilter();
 //        testColumnPrefixFilter();
-        testPageFilter();
+//        testPageFilter();
+        testFilterList();
+    }
 
+    public static void testFilterList() throws IOException{
+
+        Table student = getTable("t_student");
+        FilterList filterList = new FilterList(FilterList.Operator.MUST_PASS_ONE);
+        Scan scan = new Scan();
+        Filter qualifierFilter1 = new ValueFilter(CompareOperator.EQUAL, new SubstringComparator("27"));
+        filterList.addFilter(qualifierFilter1);
+        Filter qualifierFilter = new ValueFilter(CompareOperator.EQUAL, new SubstringComparator("女"));
+        filterList.addFilter(qualifierFilter);
+        scan.setFilter(filterList);
+        ResultScanner scanner = student.getScanner(scan);
+        print(scanner);
+        student.close();
     }
 
     public static void testPageFilter() throws IOException{
+
         Table student = getTable("t_student");
         Scan scan = new Scan();
-        PageFilter pageFilter = new PageFilter(10);
-        scan.setFilter(pageFilter);
+        PageFilter pageFilter1 = new PageFilter(10);
+        scan.setFilter(pageFilter1);
         ResultScanner scanner = student.getScanner(scan);
         print(scanner);
         student.close();
