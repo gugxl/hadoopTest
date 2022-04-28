@@ -9,9 +9,10 @@ import scala.collection.mutable
 
 object GroupFavTeacher3 {
   def main(args: Array[String]): Unit = {
-    val topN: Int = args(1).toInt
-    val conf: SparkConf = new SparkConf().setAppName("").setMaster("local[*]")
+    val conf: SparkConf = new SparkConf().setAppName("GroupFavTeacher3").setMaster("local[*]")
     val sc = new SparkContext(conf)
+
+    val topN: Int = args(1).toInt
     val lines: RDD[String] = sc.textFile(args(0))
     val subjectTeacherAndOne: RDD[((String, String), Int)] = lines.map(line => {
       val index: Int = line.lastIndexOf("/")

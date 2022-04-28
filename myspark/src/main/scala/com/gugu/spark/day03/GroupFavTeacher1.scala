@@ -28,7 +28,7 @@ object GroupFavTeacher1 {
     //分组排序（按学科进行分组）
     //[学科，该学科对应的老师的数据]
 //    reduced.groupBy(t => t._1._1)
-    val grouped: RDD[(String, Iterable[((String, String), Int)])] = reduced.groupBy(_._1._1)
+    val grouped: RDD[(String, Iterable[((String, String), Int)])] = reduced.groupBy((t:((String,String),Int))=>(t._1._1),4)
     //经过分组后，一个分区内可能有多个学科的数据，一个学科就是一个迭代器
     //将每一个组拿出来进行操作
     //为什么可以调用sacla的sortby方法呢？因为一个学科的数据已经在一台机器上的一个scala集合里面了
