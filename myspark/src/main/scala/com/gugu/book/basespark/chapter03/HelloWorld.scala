@@ -5,9 +5,9 @@ import org.apache.spark.{SparkConf, SparkContext}
 
 object HelloWorld {
     def main(args: Array[String]): Unit = {
-        val conf = new SparkConf().setAppName("hello wrld").setMaster("local[*]")
-        val sc = new SparkContext(conf)
-        val fileRDD: RDD[String] = sc.textFile("/data/tmp/wc/input")
+        val conf: SparkConf = new SparkConf().setAppName("hello world").setMaster("local[*]")
+        val context = new SparkContext(conf)
+        val fileRDD: RDD[String] = context.textFile("/data/tmp/wc/input")
         val l: Long = fileRDD.filter(_.contains("a")).count()
         println(l)
     }

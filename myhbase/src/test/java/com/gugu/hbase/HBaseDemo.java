@@ -1,8 +1,21 @@
 package com.gugu.hbase;
 
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.*;
-import org.apache.hadoop.hbase.client.*;
+import org.apache.hadoop.hbase.Cell;
+import org.apache.hadoop.hbase.CellUtil;
+import org.apache.hadoop.hbase.HBaseConfiguration;
+import org.apache.hadoop.hbase.HColumnDescriptor;
+import org.apache.hadoop.hbase.HTableDescriptor;
+import org.apache.hadoop.hbase.TableName;
+import org.apache.hadoop.hbase.client.Admin;
+import org.apache.hadoop.hbase.client.Connection;
+import org.apache.hadoop.hbase.client.ConnectionFactory;
+import org.apache.hadoop.hbase.client.Get;
+import org.apache.hadoop.hbase.client.Put;
+import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.client.ResultScanner;
+import org.apache.hadoop.hbase.client.Scan;
+import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.filter.CompareFilter;
 import org.apache.hadoop.hbase.filter.FilterList;
 import org.apache.hadoop.hbase.filter.PrefixFilter;
@@ -10,7 +23,6 @@ import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.w3c.dom.html.HTMLCollection;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -145,6 +157,9 @@ public class HBaseDemo {
         Get get = new Get("18603552294_9223370459303787807".getBytes());
         Result result = table.get(get);
         Cell cell = result.getColumnLatestCell("cf".getBytes(), "day".getBytes());
+        if (cell == null) {
+            return;
+        }
         Phone.dayPhoneDetail dayPhoneDetail = Phone.dayPhoneDetail.parseFrom(CellUtil.cloneValue(cell));
         for (Phone.PhoneDetail pd : dayPhoneDetail.getDayPhoneDetailList()){
             System.out.println(pd.toString());
