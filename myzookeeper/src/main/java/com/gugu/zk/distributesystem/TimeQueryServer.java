@@ -1,9 +1,9 @@
 package com.gugu.zk.distributesystem;
 
-import org.apache.zookeeper.*;
+import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.ZooDefs;
+import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
-
-import java.io.IOException;
 
 /**
  * @author gugu
@@ -13,7 +13,7 @@ import java.io.IOException;
  */
 public class TimeQueryServer {
      ZooKeeper zooKeeper = null;
-    // 够着zk客户端
+    // 构造zk客户端
     public  void connectZK() throws Exception {
         zooKeeper = new ZooKeeper("master:2181,slave1:2181,slave2:2181", 2000, null);
     }
@@ -31,7 +31,7 @@ public class TimeQueryServer {
     }
     public static void main(String[] args) throws Exception{
         TimeQueryServer timeQueryServer = new TimeQueryServer();
-        // 构造xkServer连接
+        // 构造zkServer连接
         timeQueryServer.connectZK();
         // 注册服务
         timeQueryServer.registerServerInfo(args[0],args[1]);

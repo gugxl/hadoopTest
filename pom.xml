@@ -40,7 +40,6 @@
     <commons-cli.version>1.2</commons-cli.version>
 
     <scala.version>2.11.8</scala.version>
-    <scala.compat.version>2.11</scala.compat.version>
 
     <akka.version>2.4.18</akka.version>
 
@@ -55,6 +54,7 @@
     <kafka.version>0.10.0.1</kafka.version>
 
     <spark.version>2.3.0</spark.version>
+    <scala.binary.version>2.11</scala.binary.version>
 
     <zookeeper.version>3.4.6</zookeeper.version>
 

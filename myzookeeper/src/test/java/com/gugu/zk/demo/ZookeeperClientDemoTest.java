@@ -33,7 +33,7 @@ public class ZookeeperClientDemoTest {
     }
     @Test
     public void testUpdate() throws KeeperException, InterruptedException {
-         zooKeeper.setData("/gugu", "hello gugu".getBytes(), -1);
+        zooKeeper.setData("/gugu", "hello gugu".getBytes(), -1);
     }
 
     @Test
@@ -54,5 +54,4 @@ public class ZookeeperClientDemoTest {
     public void close() throws InterruptedException {
         zooKeeper.close();
     }
-
 }
