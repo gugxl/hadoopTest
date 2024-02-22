@@ -20,7 +20,7 @@ import java.util.Properties;
 public class ConsumerDemo {
 
     private static final String topic = "my-topic";
-    private static final Integer threads = 2;
+    private static final Integer threads = 1;
 
     public static void main(String[] args) {
         Properties properties = new Properties();
