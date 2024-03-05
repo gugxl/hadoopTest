@@ -1,7 +1,7 @@
 package com.gugu.flink;
 
-public class Main {
+public class ReadTextFileDemo {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+
     }
 }
