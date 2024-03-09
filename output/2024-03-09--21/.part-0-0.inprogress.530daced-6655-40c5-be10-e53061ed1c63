@@ -1,0 +1,8 @@
+Event(user=gugu, url=/home, timestamp=10)
+Event(user=xiaoke, url=/home, timestamp=10)
+Event(user=zhangshan, url=/home, timestamp=10)
+Event(user=aa, url=/home, timestamp=10)
+Event(user=bb, url=/index, timestamp=10)
+Event(user=cc, url=/home, timestamp=10)
+Event(user=gugu, url=/home, timestamp=10)
+Event(user=gugu, url=/home, timestamp=10)

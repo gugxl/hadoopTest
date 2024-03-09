@@ -13,6 +13,7 @@ public class StreamExecutionEnvironmentUtils {
         flinkConfig.setString("taskmanager.memory.network.max", "1GB");
     }
 
+
     private static StreamExecutionEnvironment environment = StreamExecutionEnvironment.getExecutionEnvironment(flinkConfig);
 
     public static StreamExecutionEnvironment getEnvironment(){
